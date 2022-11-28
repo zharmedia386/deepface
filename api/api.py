@@ -6,7 +6,8 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 
 #------------------------------
 
-from flask import Flask, jsonify, request, make_response
+from flask import Flask, jsonify, request, make_response, render_template, jsonify
+from flask_cors import CORS,cross_origin  # This is the magic
 
 import argparse
 import uuid
@@ -32,6 +33,7 @@ from deepface import DeepFace
 #------------------------------
 
 app = Flask(__name__)
+CORS(app, support_credentials=True)
 
 #------------------------------
 
@@ -43,9 +45,18 @@ if tf_version == 1:
 
 @app.route('/')
 def index():
-	return '<h1>Hello, world!</h1>'
+	return render_template('./index.html')
+
+@app.route('/verify', methods=['GET'])
+def indexVerify():
+	return render_template('./verify.html')
+
+@app.route('/represent', methods=['GET'])
+def indexRepresent():
+	return render_template('./represent.html')
 
 @app.route('/analyze', methods=['POST'])
+@cross_origin(supports_credentials=True)
 def analyze():
 
 	global graph
@@ -68,6 +79,11 @@ def analyze():
 
 	resp_obj["trx_id"] = trx_id
 	resp_obj["seconds"] = toc-tic
+
+	print(resp_obj)
+
+	resp_obj = jsonify(resp_obj)
+	resp_obj.headers.add('Access-Control-Allow-Origin', '*')
 
 	return resp_obj, 200
 
@@ -111,6 +127,7 @@ def analyzeWrapper(req, trx_id = 0):
 	return resp_obj
 
 @app.route('/verify', methods=['POST'])
+@cross_origin(supports_credentials=True)
 def verify():
 
 	global graph
