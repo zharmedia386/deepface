@@ -5,7 +5,7 @@ const textArea1 = document.getElementById("textArea1");
 const input2 = document.getElementById("selectAvatar2");
 const avatar2 = document.getElementById("avatar2");
 const textArea2 = document.getElementById("textArea2");
-let reqBase64 = {};
+let reqBase64 = { model_name: "Facenet", img: [ {} ] };
 
 const convertBase64 = (file) => {
   return new Promise((resolve, reject) => {
@@ -51,8 +51,14 @@ input2.addEventListener("change", (e) => {
 function getVerify() {
 	$('#my-form').on('submit', function (event) {
 		event.preventDefault();
-        console.log(reqBase64)
-        reqBase64 = JSON.stringify(reqBase64);
+
+    if(reqBase64.img.length === 0 || !reqBase64.img[0].img1 || !reqBase64.img[0].img2){
+      alert('error')
+      return
+    }
+
+    console.log(reqBase64)
+    const reqBase64Str = JSON.stringify(reqBase64);
 
 		$.ajax({
 			url: "/verify",
@@ -60,13 +66,21 @@ function getVerify() {
 			dataType: 'json',
 			async: false,
 			contentType: "application/json; charset=utf-8",
-			data: reqBase64,
+			data: reqBase64Str,
 			success: function(response){
 				console.log("success loh")
 				console.log(response);
+        const result = response.pair_1.verified;
+
 				$("textarea[id='text2']").css("display", "block");
 				response = JSON.stringify(response, null, "\t");
-				$("#text2").val(response);
+
+        $("#alert-result").show()
+        if(result) {
+          $("#verify-result").text(" the same person")
+        } else {
+          $("#verify-result").text(" not the same person")
+        }
 			},
 			error: function(data){
 				console.log("error")

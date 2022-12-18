@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>DeepFace Modification</title>
-    <link rel="stylesheet" type="text/css" href="../../static/index.css">
+    <link rel="stylesheet" type="text/css" href="../static/index.css">
     <link href="assets/css/bootstrap-responsive.css" rel="stylesheet" />
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
@@ -14,20 +14,63 @@
     />
   </head>
   <body>
-    <div style="margin: 24px;">
-      <h2>DeepFace Modification - Verify</h2>
+    {% include 'navbar.html' %}
+
+    <div class="row ms-4 me-4 rounded-3 align-items-center ps-5" style="height: 200px; background-color: #FAF6FE;">
+      <div class="d-flex align-items-center">
+        <img src="../static/images/image-verify.png" width="150px">
+        <div class="ms-4">
+          <h3>Image Verify</h3>
+          <span>
+            Analyze whether two people in different pictures are the same person.
+            <br>
+            Select two pictures that contain person faces.
+          </span>
+        </div>
+      </div>
     </div>
 
+    <div class="row ms-4 me-4 mt-3 gx-5" style="box-sizing: border-box;">
+      <div class="col-6 px-1 d-flex flex-column align-items-center">
+        <div class="col-12 px-5 rounded-3 d-flex flex-column align-items-center" style="border: 2px dashed #ddd;">
+          <p class="mt-2">Upload First Image</p>
+          <input
+            class="form-control mb-3"
+            id="selectAvatar1"
+            type="file"
+          />
+          <img class="img mb-3 rounded-3" id="avatar1" />
+          <textarea id="textArea1" rows="30" cols="50" hidden></textarea>
+        </div>
+      </div>
+      <div class="col-6 px-1 d-flex flex-column align-items-center">
+        <div class="col-12 px-5 rounded-3 d-flex flex-column align-items-center" style="border: 2px dashed #ddd;">
+          <p class="mt-2">Upload Second Image</p>
+          <input
+            class="form-control mb-3"
+            id="selectAvatar2"
+            type="file"
+          />
+          <img class="img mb-3 rounded-3" id="avatar2" />
+          <textarea id="textArea2" rows="30" cols="50" hidden></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- <div style="margin: 24px;">
+      <h2>DeepFace Modification - Verify</h2>
+    </div> -->
+
     <!-- IMAGE 1 -->
-    <div style="margin: 16px; padding: 16px;">
+    <!-- <div style="margin: 16px; padding: 16px;">
       <input
         class="form-control form-control-lg"
         id="selectAvatar1"
         type="file"
       />
-    </div>
+    </div> -->
 
-    <div class="container">
+    <!-- <div class="container" hidden>
       <div class="col">
         <div class="row">
           <h6>Image Preview 1:</h6>
@@ -38,19 +81,19 @@
           <textarea id="textArea1" rows="30" cols="50"></textarea>
         </div>
       </div>
-    </div>
+    </div> -->
 
 
     <!-- IMAGE 2 -->
-    <div style="margin: 16px; padding: 16px;">
+    <!-- <div style="margin: 16px; padding: 16px;">
       <input
         class="form-control form-control-lg"
         id="selectAvatar2"
         type="file"
       />
-    </div>
+    </div> -->
 
-    <div class="container">
+    <!-- <div class="container" hidden>
       <div class="col">
         <div class="row">
           <h6>Image Preview 2:</h6>
@@ -58,27 +101,31 @@
         </div>
         <div class="row">
           <h6>Base64 Output 2</h6>
-          <textarea id="textArea2" rows="30" cols="50"></textarea>
+          
         </div>
       </div>
+    </div> -->
+
+    <div id="alert-result" style="display: none;" class="alert alert-info me-4 ms-4 mt-3" role="alert">
+      The result of verifying that the two images above are <span id="verify-result" class="fw-bold"></span>
     </div>
 
-    <div style="margin: 16px; padding: 16px;">
+    <div class="row me-3 ms-3 mt-3">
       <form method="post" action="#" id="my-form">
-        <input type="submit" class="form-control form-control-lg" id="blogSubmit" onclick="getVerify()">
+        <input type="submit" class="form-control form-control-lg btn btn-outline-success" id="blogSubmit" onclick="getVerify()">
       </form>
     </div>
 
 
     <!-- API RESPONSE -->
-    <div class="container">
+    <!-- <div class="container">
       <div class="col">
         <div class="row">
           <h6>API Response</h6>
           <textarea id="text2" rows="30" cols="50"></textarea>
         </div>
       </div>
-    </div>
+    </div> -->
     
     <script
           src="https://code.jquery.com/jquery-3.3.1.min.js"
