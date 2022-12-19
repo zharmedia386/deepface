@@ -36,9 +36,12 @@ function getAnalyze() {
 	$('#my-form').on('submit', function (event) {
 		event.preventDefault();
 
+		$("#alert-result").hide()
+
 		console.log(reqBase64)
 		if(reqBase64.img.length === 0 || !reqBase64.img[0]){
-			alert('error')
+			$("#analyze-error").text("Please Choose an Image")
+        	$("#alert-error").show()
 			return
 		}
 
@@ -55,6 +58,8 @@ function getAnalyze() {
 				console.log("success loh")
 				console.log(response);
 				const result = response.instance_1
+
+				$("#alert-error").hide()
 
 				$("textarea[id='text2']").css("display", "block");
 				response = JSON.stringify(response, null, "\t");
@@ -73,10 +78,12 @@ function getAnalyze() {
 					result.gender
 				)
 			},
-			error: function(data){
+			error: function(error){
 				console.log("error")
-				console.log(data);
-				// console.log(error);
+				console.log(error.message);
+
+				$("#analyze-error").text("No human face detected in input image")
+        		$("#alert-error").show()
 			}
 		});
 	});

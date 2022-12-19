@@ -35,9 +35,12 @@ function getRepresent() {
 	$('#my-form').on('submit', function (event) {
     event.preventDefault();
 
+    $("#alert-result").hide()
+
     console.log(reqBase64)
     if(reqBase64.img.length === 0 || !reqBase64.img[0]){
-      alert('error')
+      $("#represent-error").text("Please Choose an Image")
+      $("#alert-error").show()
       return
     }
 
@@ -55,6 +58,8 @@ function getRepresent() {
             console.log(response);
             const result = response.embedding
 
+            $("#alert-error").hide()
+
             $("textarea[id='text2']").css("display", "block");
             response = JSON.stringify(response, null, "\t");
 
@@ -66,7 +71,9 @@ function getRepresent() {
         error: function(data){
             console.log("error")
             console.log(data);
-            // console.log(error);
+            
+            $("#represent-error").text("No human face detected in input image")
+        		$("#alert-error").show()
         }
     });
 	});

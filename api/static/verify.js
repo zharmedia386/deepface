@@ -51,8 +51,9 @@ input2.addEventListener("change", (e) => {
 function getVerify() {
 	$('#my-form').on('submit', function (event) {
 		event.preventDefault();
-
-    if(reqBase64.img.length === 0 || !reqBase64.img[0].img1 || !reqBase64.img[0].img2){
+reqBase64
+    if(reqBase64.img.length === 0 || !reqBase64.img[0]?.img1 || !reqBase64.img[0]?.img2){
+      $("#verify-error").text("Please Choose an Image")
       $('#alert-error').show()
       return
     }
@@ -60,7 +61,6 @@ function getVerify() {
     console.log(reqBase64)
     const reqBase64Str = JSON.stringify(reqBase64);
 
-    $("#verify-submit").prop('disabled', true);
 		$.ajax({
 			url: "/verify",
 			type: 'post',
@@ -84,14 +84,13 @@ function getVerify() {
         }
 
         $("#alert-error").hide()
-        $("#verify-submit").prop('disabled', false);
 			},
 			error: function(data){
 				console.log("error")
 				console.log(data);
-
-        $("#alert-error").hide()
-        $("#verify-submit").prop('disabled', false);
+        
+        $("#verify-error").text("No human face detected in input image")
+        $("#alert-error").show()
 				// console.log(error);
 			}
 		});
