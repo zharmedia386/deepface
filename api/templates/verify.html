@@ -18,12 +18,23 @@
   </div>
 </div>
 
+<div 
+  id="alert-error" 
+  style="display: none;"
+  class="alert alert-danger me-4 ms-4 mt-3" 
+  role="alert"
+>
+  <span id="verify-error" class="fw-bold">
+    Please fill all the required form input
+  </span>
+</div>
+
 <div class="row ms-4 me-4 mt-3 gx-5" style="box-sizing: border-box;">
   <div class="col-6 px-1 d-flex flex-column align-items-center">
     <div class="col-12 px-5 rounded-3 d-flex flex-column align-items-center" style="border: 2px dashed #ddd;">
       <p class="mt-2">Upload First Image</p>
       <input class="form-control mb-3" id="selectAvatar1" type="file" />
-      <img class="img mb-3 rounded-3" id="avatar1" />
+      <img class="img mb-3 rounded-3" id="avatar1" width="100%"/>
       <textarea id="textArea1" rows="30" cols="50" hidden></textarea>
     </div>
   </div>
@@ -31,19 +42,24 @@
     <div class="col-12 px-5 rounded-3 d-flex flex-column align-items-center" style="border: 2px dashed #ddd;">
       <p class="mt-2">Upload Second Image</p>
       <input class="form-control mb-3" id="selectAvatar2" type="file" />
-      <img class="img mb-3 rounded-3" id="avatar2" />
+      <img class="img mb-3 rounded-3" id="avatar2" width="100%"/>
       <textarea id="textArea2" rows="30" cols="50" hidden></textarea>
     </div>
   </div>
 </div>
 
-<div id="alert-result" style="display: none;" class="alert alert-info me-4 ms-4 mt-3" role="alert">
+<div 
+  id="alert-result" 
+  style="display: none;" 
+  class="alert alert-info me-4 ms-4 mt-3" 
+  role="alert"
+>
   The result of verifying that the two images above are <span id="verify-result" class="fw-bold"></span>
 </div>
 
 <div class="row me-3 ms-3 mt-3 mb-3">
   <form method="post" action="#" id="my-form">
-    <input type="submit" class="form-control form-control-lg btn btn-outline-success" id="blogSubmit"
+    <input id="verify-submit" type="submit" class="form-control form-control-lg btn btn-outline-success" id="blogSubmit"
       onclick="getVerify()">
   </form>
 </div>

@@ -53,13 +53,14 @@ function getVerify() {
 		event.preventDefault();
 
     if(reqBase64.img.length === 0 || !reqBase64.img[0].img1 || !reqBase64.img[0].img2){
-      alert('error')
+      $('#alert-error').show()
       return
     }
 
     console.log(reqBase64)
     const reqBase64Str = JSON.stringify(reqBase64);
 
+    $("#verify-submit").prop('disabled', true);
 		$.ajax({
 			url: "/verify",
 			type: 'post',
@@ -81,10 +82,16 @@ function getVerify() {
         } else {
           $("#verify-result").text(" not the same person")
         }
+
+        $("#alert-error").hide()
+        $("#verify-submit").prop('disabled', false);
 			},
 			error: function(data){
 				console.log("error")
 				console.log(data);
+
+        $("#alert-error").hide()
+        $("#verify-submit").prop('disabled', false);
 				// console.log(error);
 			}
 		});
