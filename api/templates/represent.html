@@ -14,19 +14,51 @@
     />
   </head>
   <body>
-    <div style="margin: 24px;">
-      <h2>DeepFace Modification - Represent</h2>
+    {% include 'navbar.html' %}
+
+    <div class="row ms-4 me-4 rounded-3 align-items-center ps-5" style="height: 200px; background-color: #FAF6FE;">
+      <div class="d-flex align-items-center">
+        <img src="../static/images/image-verify.png" width="150px">
+        <div class="ms-4">
+          <h3>Image Represent</h3>
+          <span>
+            Face recognition models basically represent facial images as multi-dimensional vectors. Sometimes, you need those embedding vectors directly. DeepFace comes with a dedicated representation function.
+            <br><br>
+            Select a picture that contain person faces.
+          </span>
+        </div>
+      </div>
     </div>
 
-    <div style="margin: 16px; padding: 16px;">
-      <input
-        class="form-control form-control-lg"
-        id="selectAvatar"
-        type="file"
-      />
+    <div class="row ms-4 me-4 mt-3 gx-5" style="box-sizing: border-box;">
+      <div class="col-12 px-1 d-flex flex-column align-items-center">
+        <div class="col-12 px-5 rounded-3 d-flex flex-column align-items-center" style="border: 2px dashed #ddd;">
+          <p class="mt-2">Upload Image</p>
+          <input
+            class="form-control mb-3"
+            id="selectAvatar"
+            type="file"
+          />
+          <img class="img mb-3 rounded-3" id="avatar" />
+          <textarea id="textArea" rows="30" cols="50" hidden></textarea>
+        </div>
+      </div>
     </div>
 
-    <div class="container">
+    <div id="alert-result" style="display: none;" class="alert alert-info me-4 ms-4 mt-3" role="alert">
+      The representing result of that images are as follows:<br>
+      
+      &emsp;<span id="represent-result" class="fw-bold"></span>
+
+    </div>
+
+    <div class="row me-3 ms-3 mt-3">
+      <form method="post" action="#" id="my-form">
+        <input type="submit" class="form-control form-control-lg btn btn-outline-success" id="blogSubmit" onclick="getRepresent()">
+      </form>
+    </div>
+
+    <!-- <div class="container">
       <div class="col">
         <div class="row">
           <h6>Image Preview:</h6>
@@ -41,7 +73,7 @@
           <textarea id="text2" rows="30" cols="50"></textarea>
         </div>
       </div>
-    </div>
+    </div> -->
 
     <script
           src="https://code.jquery.com/jquery-3.3.1.min.js"

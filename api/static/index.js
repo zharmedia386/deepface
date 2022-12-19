@@ -1,7 +1,7 @@
 const input = document.getElementById("selectAvatar");
 const avatar = document.getElementById("avatar");
 const textArea = document.getElementById("textArea");
-let reqBase64 = {};
+let reqBase64 = { img: [ ] };
 
 const convertBase64 = (file) => {
   return new Promise((resolve, reject) => {
@@ -24,32 +24,60 @@ const uploadImage = async (event) => {
   avatar.src = base64;
   textArea.innerText = base64;
   reqBase64 = { img: [base64] };
-  reqBase64 = JSON.stringify(reqBase64);
 };
 
 
 // ANALYZE - DEEPFACE
 input.addEventListener("change", (e) => {
 	uploadImage(e);
-		console.log(reqBase64)
-	$.ajax({
-		url: "/analyze",
-		type: 'post',
-		dataType: 'json',
-		async: false,
-		contentType: "application/json; charset=utf-8",
-		data: reqBase64,
-		success: function(response){
-			console.log("success loh")
-			console.log(response);
-			$("textarea[id='text2']").css("display", "block");
-			response = JSON.stringify(response, null, "\t");
-			$("#text2").val(response);
-		},
-		error: function(data){
-			console.log("error")
-			console.log(data);
-			// console.log(error);
-		}
-	});
 });
+
+function getAnalyze() {
+	$('#my-form').on('submit', function (event) {
+		event.preventDefault();
+
+		console.log(reqBase64)
+		if(reqBase64.img.length === 0 || !reqBase64.img[0]){
+			alert('error')
+			return
+		}
+
+		const reqBase64Str = JSON.stringify(reqBase64);
+
+		$.ajax({
+			url: "/analyze",
+			type: 'post',
+			dataType: 'json',
+			async: false,
+			contentType: "application/json; charset=utf-8",
+			data: reqBase64Str,
+			success: function(response){
+				console.log("success loh")
+				console.log(response);
+				const result = response.instance_1
+
+				$("textarea[id='text2']").css("display", "block");
+				response = JSON.stringify(response, null, "\t");
+
+				$("#alert-result").show()
+				$("#analyze-result-age").text(
+					result.age
+				)
+				$("#analyze-result-emotion").text(
+					result.dominant_emotion
+				)
+				$("#analyze-result-race").text(
+					result.dominant_race
+				)
+				$("#analyze-result-gender").text(
+					result.gender
+				)
+			},
+			error: function(data){
+				console.log("error")
+				console.log(data);
+				// console.log(error);
+			}
+		});
+	});
+}

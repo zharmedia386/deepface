@@ -1,7 +1,7 @@
 const input = document.getElementById("selectAvatar");
 const avatar = document.getElementById("avatar");
 const textArea = document.getElementById("textArea");
-let reqBase64 = {};
+let reqBase64 = { model_name: "Facenet", img: '' };
 
 const convertBase64 = (file) => {
   return new Promise((resolve, reject) => {
@@ -24,26 +24,44 @@ const uploadImage = async (event) => {
   avatar.src = base64;
   textArea.innerText = base64;
   reqBase64 = { model_name: "Facenet", img: base64 };
-  reqBase64 = JSON.stringify(reqBase64);
 };
 
 // REPRESENT - DEEPFACE
 input.addEventListener("change", (e) => {
-    uploadImage(e);
+  uploadImage(e);
+});
+
+function getRepresent() {
+	$('#my-form').on('submit', function (event) {
+    event.preventDefault();
+
     console.log(reqBase64)
+    if(reqBase64.img.length === 0 || !reqBase64.img[0]){
+      alert('error')
+      return
+    }
+
+    const reqBase64Str = JSON.stringify(reqBase64);
+
     $.ajax({
         url: "/represent",
         type: 'post',
         dataType: 'json',
         async: false,
         contentType: "application/json; charset=utf-8",
-        data: reqBase64,
+        data: reqBase64Str,
         success: function(response){
             console.log("success loh")
             console.log(response);
+            const result = response.embedding
+
             $("textarea[id='text2']").css("display", "block");
             response = JSON.stringify(response, null, "\t");
-            $("#text2").val(response);
+
+            $("#alert-result").show()
+            $("#represent-result").text(
+              result
+            )
         },
         error: function(data){
             console.log("error")
@@ -51,4 +69,5 @@ input.addEventListener("change", (e) => {
             // console.log(error);
         }
     });
-});
+	});
+}
