@@ -27,7 +27,7 @@ const uploadImage1 = async (event) => {
   const base64 = await convertBase64(file);
   avatar1.src = base64;
   textArea1.innerText = base64;
-  reqBase64 = { model_name: "Facenet", img: [ { img1: base64 }] };
+  reqBase64.img[0].img1 = base64;
 };
 
 const uploadImage2 = async (event) => {
